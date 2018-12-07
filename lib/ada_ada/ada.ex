@@ -6,7 +6,7 @@ defmodule AdaAda.Ada do
   schema "adas" do
     field :content, :string
     field :ada_id, :string
-    field :author, :id
+    field :user_id, :id
 
     timestamps()
   end

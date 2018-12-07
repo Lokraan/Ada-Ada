@@ -30,6 +30,10 @@ defmodule AdaAda.User do
   def changeset(%User{} = user, attrs \\ %{}) do
     user
     |> cast(attrs, @fields)
+  end
+
+  def verify_changeset(%Ecto.Changeset{valid?: true} = changeset) do
+    changeset
     |> validate_required(@fields)
     |> validate_password(:password)
     |> unique_constraint([:user_id])
@@ -38,6 +42,7 @@ defmodule AdaAda.User do
 
   def user_register(%User{} = user, attrs \\ %{}) do
     changeset(user, attrs)
+    |> verify_changeset()
     |> Repo.insert()
   end
 

@@ -9,8 +9,10 @@
   </head>
   <body>
     <div class="layout-container">
-      <%= render AdaAdaWeb.LayoutView, "_topnav.html", assigns %>
-      
+      <div role="nav" class="container">
+        <%= render AdaAdaWeb.LayoutView, "_topnav.html", assigns %>
+      </div>
+
       <main role="main pt-5" class="container">
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
