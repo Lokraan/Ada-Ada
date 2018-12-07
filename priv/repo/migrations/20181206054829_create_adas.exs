@@ -10,6 +10,6 @@ defmodule AdaAda.Repo.Migrations.CreateAdas do
       timestamps()
     end
 
-    create index(:adas, [:author])
+    create index(:adas, [:user_id])
   end
 end

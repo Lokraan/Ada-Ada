@@ -7,12 +7,9 @@ defmodule AdaAda.Repo.Migrations.CreateUsers do
       add :display_name, :string
       add :email, :string
       add :bio, :string
-      add :password, :string
-      add :adas, references(:adas, on_delete: :nothing)
+      add :password_hash, :string
 
       timestamps()
     end
-
-    create index(:users, [:adas])
   end
 end

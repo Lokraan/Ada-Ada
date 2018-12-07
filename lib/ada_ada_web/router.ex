@@ -17,9 +17,11 @@ defmodule AdaAdaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/signin", RegistrationController, :signin
-    get "/login", RegistrationController, :login
+    get "/login", LoginController, :index
+    get "/register", RegistrationController, :index
     get "/users", UserController, :index
+    post "/login", LoginController, :login 
+    post "/register", RegistrationController, :register
   end
 
   # Other scopes may use custom stacks.

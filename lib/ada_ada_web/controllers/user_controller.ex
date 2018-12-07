@@ -1,13 +1,9 @@
 defmodule AdaAdaWeb.UserController do
   use AdaAdaWeb, :controller
 
-  import AdaAdaWeb.RegistrationController, only: [require_user: 2]
-
-  alias AdaAda.User
-
-  plug :require_user
+  import AdaAda.Repo, only: [get_all_users: 0]
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    render(conn, "index.html", users: get_all_users())
   end
 end

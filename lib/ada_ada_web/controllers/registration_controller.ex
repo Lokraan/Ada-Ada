@@ -3,27 +3,23 @@ defmodule AdaAdaWeb.RegistrationController do
 
   alias AdaAda.User
 
-  def signin(conn, %{"user" => %{"username" => user_id, "password" => pass}}) do
-    case User.validate_user_login(user_id, pass) do
-      {:ok, user} ->  
-        conn
-        |> put_session(:user_id, user_id)
-        |> redirect(to: "/")
-      {:error, message} ->
-        conn
-        |> put_flash(:error, "invalid login")
-    end
+  def index(conn, _) do
+    render(conn, "index.html", changeset: User.changeset(%User{}))
   end
 
   def register(conn, %{"user" => info}) do
-    case User.user_register(%User{}, info) do
+    info_atoms = Map.new(info, fn {k, v} -> {String.to_atom(k), v} end) 
+    case User.user_register(%User{}, info_atoms) do
       {:ok, user} ->
+        IO.inspect user
         conn
-        |> put_session(:user_id, info.user_id)
+        |> put_session(:user_id, info_atoms.user_id)
         |> redirect(to: "/")
-      {:error, message} ->
+      {:error, changeset} ->
+        IO.inspect changeset
         conn
-        |> put_flash(:error, "invalid register")
+        |> put_flash(:error, "Invalid registration data!")
+        |> render("index.html", changeset: changeset)
     end
   end
 
@@ -34,9 +30,9 @@ defmodule AdaAdaWeb.RegistrationController do
       |> assign(:user_token, Phoenix.Token.sign(conn, "user token", user))
     else
       conn
-      |> put_view(AdaAdaWeb.RegistrationView)
+      |> put_view(AdaAdaWeb.LoginView)
       |> put_flash(:error, "Please signin!")
-      |> render("signin.html", changeset: User.changeset(%User{}))
+      |> render("index.html", changeset: User.changeset(%User{}))
       |> halt()
     end
   end

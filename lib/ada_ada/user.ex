@@ -9,7 +9,7 @@ defmodule AdaAda.User do
     display_name: String.t(),
     email: String.t(),
     user_id: String.t(),
-    password: String.t()
+    password_hash: String.t()
   }
 
   schema "users" do
@@ -18,13 +18,12 @@ defmodule AdaAda.User do
     field :email, :string
     field :user_id, :string
     field :password, :string
-
-    has_many :adas, Ada
+    field :password_hash, :string
 
     timestamps()
   end
 
-  @fields ~w(bio display_name email user_id password)
+  @fields ~w(display_name email user_id password)a
 
   @doc false
   def changeset(%User{} = user, attrs \\ %{}) do
@@ -36,7 +35,7 @@ defmodule AdaAda.User do
     changeset
     |> validate_required(@fields)
     |> validate_password(:password)
-    |> unique_constraint([:user_id])
+    |> unique_constraint(:user_id)
     |> put_pass_hash()
   end
 
@@ -48,11 +47,12 @@ defmodule AdaAda.User do
 
   def validate_user_login(user_id, password) do
     Repo.get_by(User, user_id: user_id)
-    |> Comeonin.Argon2.check_pass(password, hash_key: :password)
+    |> Comeonin.Argon2.check_pass(password)
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes:
       %{password: password}} = changeset) do
+
     change(changeset, Comeonin.Argon2.add_hash(password))
   end
 
@@ -69,9 +69,9 @@ defmodule AdaAda.User do
     end)
   end
 
-  defp valid_password?(password) when byte_size(password) > 7 do
+  defp valid_password?(password) when byte_size(password) > 5 do
     {:ok, password}
   end
 
-  defp valid_password?(_), do: {:error, "The password is too short"}
+  defp valid_password?(_), do: {:error, "The password is too short (at least length 6)"}
 end

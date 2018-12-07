@@ -5,16 +5,18 @@ defmodule AdaAda.InputHelpers do
 
   def input(form, field, opts \\ []) do
     type = opts[:using] || Phoenix.HTML.Form.input_type(form, field)
+    name = opts[:name] || field
+    IO.puts "#{name} = #{opts[:name]} || #{field}"
 
     wrapper_opts = [class: "form-group #{state_class(form, field)}"]
     label_opts = [class: "control-label"]
-    input_opts = [class: "form-control"]
+    input_opts = [class: "form-control #{state_class(form, field)}"]
 
     content_tag :div, wrapper_opts do
-      label = label(form, field, humanize(field), label_opts)
+      label = label(form, field, humanize(name), label_opts)
       input = input(type, form, field, input_opts)
-      # error = AdaAda.ErrorHelpers.error_tag(form, field)
-      [label, input, ""]
+      error = AdaAda.ErrorHelpers.error_tag(form, field) || ""
+      [label, input, error]
     end
   end
 
@@ -22,8 +24,8 @@ defmodule AdaAda.InputHelpers do
     cond do
       # The form was not yet submitted
       !form.source.action -> ""
-      form.errors[field] -> "has-error"
-      true -> "has-success"
+      form.errors[field] -> "is-invalid"
+      true -> "is-valid"
     end
   end
 

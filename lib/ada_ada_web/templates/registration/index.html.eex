@@ -1,0 +1,10 @@
+<div class="container col-md-10">
+  <%= form_for @changeset, registration_path(@conn, :register), fn f -> %> 
+    <%= input f, :user_id, using: :text_input, name: :username%>
+    <%= input f, :display_name, using: :text_input %>
+    <%= input f, :email, using: :text_input %>
+    <%= input f, :password, using: :password_input %>
+    <%= submit "Submit", class: "btn btn-primary" %>
+  <% end %>
+  <%= link("Already have an account?", to: login_path(@conn, :index)) %>
+</div>

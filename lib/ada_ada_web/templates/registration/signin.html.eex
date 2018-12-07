@@ -1,6 +1,0 @@
-<%= form_for @changeset, registration_path(@conn, :signin), fn f -> %> 
-  <%= input f, :username, using: :text_input %>
-  <%= input f, :display_name, using: :text_input %>
-  <%= input f, :email, using: :text_input %>
-  <%= input f, :password, using: :password_input %>
-<% end %>
