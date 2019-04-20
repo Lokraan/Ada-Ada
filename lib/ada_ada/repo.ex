@@ -3,16 +3,16 @@ defmodule AdaAda.Repo do
     otp_app: :ada_ada,
     adapter: Ecto.Adapters.Postgres
 
-  import Ecto.Query, 
+  import Ecto.Query,
     only: [
       from: 2
     ]
 
-  alias AdaAda.{Ada, Repo, User}
+  alias AdaAda.{Repo, User}
 
   @page_size 25
 
-  def get_all_users(opts \\ {}) do
+  def get_all_users do
     User
     |> paginate(1, @page_size)
     |> Repo.all()

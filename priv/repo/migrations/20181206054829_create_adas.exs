@@ -5,7 +5,7 @@ defmodule AdaAda.Repo.Migrations.CreateAdas do
     create table(:adas) do
       add :ada_id, :string
       add :content, :string
-      add :user_id, references(:users, on_delete: :nothing)
+      add :user_id, references(:users)
 
       timestamps()
     end

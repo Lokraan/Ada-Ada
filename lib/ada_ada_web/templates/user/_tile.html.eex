@@ -1,0 +1,11 @@
+<div class="card">
+  <h5 class="card-header">
+    <%= @user.display_name %> 
+  </h5>
+  <div class="card-body">
+    <p class="card-text">
+      <%= @user.bio %>
+    </p>
+    <%= link("Visit", to: user_path(@conn, :profile)) %>
+  </div>
+</div>

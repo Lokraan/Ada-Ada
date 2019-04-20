@@ -20,6 +20,7 @@ defmodule AdaAdaWeb.Router do
     get "/login", LoginController, :index
     get "/register", RegistrationController, :index
     get "/users", UserController, :index
+    get "/users/profile", UserController, :profile
     post "/login", LoginController, :login 
     post "/register", RegistrationController, :register
   end

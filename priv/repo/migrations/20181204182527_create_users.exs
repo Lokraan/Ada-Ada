@@ -5,9 +5,8 @@ defmodule AdaAda.Repo.Migrations.CreateUsers do
     create table(:users) do
       add :user_id, :string
       add :display_name, :string
-      add :email, :string
       add :bio, :string
-      add :password_hash, :string
+      add :encrypted_password, :string
 
       timestamps()
     end
