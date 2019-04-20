@@ -10,19 +10,17 @@ defmodule AdaAdaWeb.LoginController do
   def login(conn, %{"user" => info}) do
     user = User.get_user_by_id(info["user_id"])
 
-    case Comeonin.Bcrypt.check_pass(user, info["user_id"]) do
+    case Bcrypt.check_pass(user, info["encrypted_password"]) do
       {:ok, user} ->
         conn
         |> put_session(:user_id, user.user_id)
         |> put_flash(:info, "Signed in successfully.")
         |> redirect(to: AdaAdaWeb.Router.Helpers.user_path(conn, :index))
 
-      {:error, message} ->
-        err_resp = [{:encrypted_password, message}]
-
+      {:error, _message} ->
         conn
         |> put_flash(:error, "There was a problem with your username / password")
-        |> render("new.html", changeset: err_resp)
+        |> render("index.html", changeset: User.changeset(%User{}))
     end
   end
 end
